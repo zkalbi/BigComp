@@ -19,3 +19,16 @@ CombinedStates_df %.% #Specifying the dataframe
 #We find that Washington Leads with .2405,
 #California second with .22998, and Oregon
 #in last with .22726
+
+names(CombinedStates_df)
+
+#Finding the proportions within Each State of races
+#with higher educations.
+CombinedStates_df %.%
+  filter(SCHL > 19) %.%
+  group_by(State, SCHL) %.%
+  summarise(HighEd.NotWhite.Prob=mean(RAC1P > 1, na.rm=TRUE))
+
+CombinedStates_df %.%
+  group_by(State) %.%
+  summarise(NotWhite.Prop = mean(RAC1P > 1, na.rm=TRUE))
