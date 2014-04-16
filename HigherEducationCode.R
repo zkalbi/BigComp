@@ -53,4 +53,8 @@ CombinedStates_df %.%
 CombinedStates_df %.%
   filter(SCHL > 19) %.%
   group_by(State, SCHL) %.%
+<<<<<<< HEAD
   summarise(MedIncome = median(WAGP, na.rm=TRUE), MeanIncome= mean(WAGP, na.rm=TRUE))
+=======
+  summarise(MedIncome = median(WAGP, na.rm=TRUE), MeanIncome= mean(WAGP, na.rm=TRUE)) 
+>>>>>>> 19ad15d6d5fa6b702e31977f57ebe7a1e82c2602
