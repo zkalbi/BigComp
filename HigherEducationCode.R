@@ -13,7 +13,7 @@ CombinedStates_df <- tbl_df(newComb)
 #Applying the dplyr commands to find the highest proportions
 CombinedStates_df %.% #Specifying the dataframe
   group_by(State) %.% #Grouping by State
-  summarise(HighEd = mean(SCHL > 20, na.rm=TRUE)) %.% #Higher education Proportion
+  summarise(HighEd = mean(SCHL > 19, na.rm=TRUE)) %.% #Higher education Proportion
   arrange(desc(HighEd)) #Arranging in Descending order
 
 #We find that Washington Leads with .2405,
@@ -32,3 +32,10 @@ CombinedStates_df %.%
 CombinedStates_df %.%
   group_by(State) %.%
   summarise(NotWhite.Prop = mean(RAC1P > 1, na.rm=TRUE))
+
+#How to find the mean for each of the education level
+#for each state.
+CombinedStates_df %.%
+  filter(SCHL > 19) %.%
+  group_by(State, SCHL) %.%
+  summarise(mean(WAGP, na.rm=TRUE))
