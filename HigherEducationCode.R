@@ -38,8 +38,19 @@ CombinedStates_df %.%
 CombinedStates_df %.%
   filter(SCHL > 19) %.%
   group_by(State, SCHL) %.%
-  summarise(mean(WAGP, na.rm=TRUE))
+  summarise(MeanIncome = mean(WAGP, na.rm=TRUE)) 
 
 #For Each state the highest mean income was for
 #those who received a "Professional Degree beyond
 # a Bachelor's". [the states are WA, CA, OR]
+
+#It seems like the data may be skewed so using 
+#mean as the measure of center could be throwing
+#the data off. Therefore, median might be better
+#[Also, I think we should look into how much of
+#the data is missing!]
+
+CombinedStates_df %.%
+  filter(SCHL > 19) %.%
+  group_by(State, SCHL) %.%
+  summarise(MedIncome = median(WAGP, na.rm=TRUE), MeanIncome= mean(WAGP, na.rm=TRUE))

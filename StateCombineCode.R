@@ -18,3 +18,4 @@ setwd("C:/Users/Martin/Documents/BigComp/SimpleData")
 Combined = read.csv("StateCombined.csv", header=TRUE)
 newComb = cbind(Combined, State)
 write.csv(newComb, file="NewStateCombined.csv")
+
