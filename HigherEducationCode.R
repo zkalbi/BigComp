@@ -39,3 +39,7 @@ CombinedStates_df %.%
   filter(SCHL > 19) %.%
   group_by(State, SCHL) %.%
   summarise(mean(WAGP, na.rm=TRUE))
+
+#For Each state the highest mean income was for
+#those who received a "Professional Degree beyond
+# a Bachelor's". [the states are WA, CA, OR]
