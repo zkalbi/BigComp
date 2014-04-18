@@ -88,4 +88,62 @@ names(white.hi)
 plot(white.hi$perce)
 
 
+###q3: What proportion of people in each state are non-white? ######
+getwd()
+setwd("C:/Users/Acer/Documents/OSU/ST 599/BigComp")
+print(All_df)
+table(All_df$RAC1P)
 
+group<-group_by(All_df, ST)
+pro<-summarise(group,prop_nowhite=mean(RAC1P>1,na.rm=TRUE))
+head(pro)
+
+###q4:What is the mean salary for each level of education in each state? [I did not write this yet!]##
+#state_AL<-subset(All_df, ST=1)
+#schl19<-filter(state_AL,SCHL==19)
+#summarise(schl19,avg.salary_19=mean(WAGP,na.rm=TRUE))
+
+
+##Avg salary for educ level 19 by state
+filt<-filter(All_df,SCHL==19)
+group<-group_by(filt, ST)
+summarise(group,avg.salary_19=mean(WAGP,na.rm=TRUE))
+
+##function to compute avg salary for educ level
+wage_educ<-function(x)
+{ 
+    schl_x<-filter(All_df,SCHL == x)  ##filter tirst by edu level
+    group_x<-group_by(schl_x,ST) # group by state
+    avg.salary_19<-summarise(group_x,avg.salary_19=mean(WAGP,na.rm=TRUE))
+  return(avg.salary_19)
+  
+     }
+###Average salary for each education level by state
+##the function create double ST var for each educ level and the same var name
+result<-data.frame(cbind(State,wage_educ(19) ,wage_educ(20),wage_educ(20),wage_educ(22),wage_educ(23),wage_educ(24)))
+head(result)
+
+##here is code to delete the doublon of ST
+result1<-result[,-c(4,6,8,10,12)]
+
+##renaming the columns
+colnames(result1)[3]<-'avg.salary_19'
+colnames(result1)[4]<-'avg.salary_20'
+colnames(result1)[5]<-'avg.salary_21'
+colnames(result1)[6]<-'avg.salary_22'
+colnames(result1)[7]<-'avg.salary_23'
+colnames(result1)[8]<-'avg.salary_24'
+head(result1)
+result0<-cbind(result1,pro$prop_nowhite)
+colnames(result0)[9]<-'prop_nonwhite'
+head(result0)
+
+###plotting
+library(ggplot2)
+qplot(as.factor(State),prop_nonwhite,data=result0,geom = "jitter",size = I(2))+
+  ggtitle("Proportion of non white by state") 
+
+qplot(State,avg.salary_24,data=result0,size=I(2))+
+  ggtitle("Avg salary for education level 24 by state") 
+ #point(State,avg.salary_23,data=result0)
+#ggplot(result0,aes(x=factor(""),fill=State))+geom_bar()
